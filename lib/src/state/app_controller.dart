@@ -26,6 +26,7 @@ class AppController extends ChangeNotifier {
   String? catalogError;
   String? chatError;
   String? sessionId;
+  DateTime? _activeRequestStartedAt;
   String apiBaseUrl = AppConfig.defaultBaseUrl;
   String browseQuery = '';
   String selectedCategory = AppConfig.allCategoryLabel;
@@ -33,6 +34,8 @@ class AppController extends ChangeNotifier {
   Set<String> _savedIds = <String>{};
 
   List<ConversationMessage> get conversation => List<ConversationMessage>.unmodifiable(_conversation);
+
+  DateTime? get activeRequestStartedAt => _activeRequestStartedAt;
 
   List<CatalogApp> get catalog => List<CatalogApp>.unmodifiable(_catalog);
 
@@ -140,16 +143,20 @@ class AppController extends ChangeNotifier {
 
     chatError = null;
     _conversation.add(ConversationMessage.user(trimmed));
+    final requestStartedAt = DateTime.now();
+    _activeRequestStartedAt = requestStartedAt;
     isChatLoading = true;
     notifyListeners();
 
     try {
       final reply = await _apiClient.sendChat(trimmed, sessionId: sessionId);
+      final responseTime = DateTime.now().difference(requestStartedAt);
       sessionId = reply.sessionId.isEmpty ? sessionId : reply.sessionId;
       _conversation.add(
         ConversationMessage.assistant(
           reply.message,
           apps: reply.apps,
+          responseTime: responseTime,
         ),
       );
     } catch (error) {
@@ -161,6 +168,7 @@ class AppController extends ChangeNotifier {
         ),
       );
     } finally {
+      _activeRequestStartedAt = null;
       isChatLoading = false;
       notifyListeners();
     }
@@ -189,6 +197,7 @@ class AppController extends ChangeNotifier {
   void clearConversation() {
     sessionId = null;
     chatError = null;
+    _activeRequestStartedAt = null;
     _conversation
       ..clear()
       ..add(ConversationMessage.assistant(AppConfig.welcomeMessage));

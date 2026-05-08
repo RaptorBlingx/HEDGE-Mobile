@@ -20,12 +20,12 @@ class AppConfig {
   }
 
   static const List<String> suggestedPrompts = <String>[
-    'I need an app for monitoring energy consumption',
-    'Find me a smart building HVAC solution',
-    'Precision irrigation for farming',
+    'Monitor energy consumption across buildings',
+    'Find HVAC optimization for smart buildings',
+    'Recommend precision irrigation apps',
   ];
 
   static const String welcomeMessage =
-      'Tell me what you want to achieve and I will narrow the HEDGE catalog to '
-      'the apps that fit best.';
+      'Tell me the outcome you want, the domain, and any constraints. '
+      'I will rank the strongest HEDGE apps and explain why they fit.';
 }

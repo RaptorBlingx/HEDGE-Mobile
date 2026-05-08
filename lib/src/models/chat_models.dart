@@ -43,6 +43,7 @@ class ConversationMessage {
     required this.createdAt,
     this.apps = const <RecommendedApp>[],
     this.isError = false,
+    this.responseTime,
   });
 
   final String id;
@@ -51,6 +52,7 @@ class ConversationMessage {
   final DateTime createdAt;
   final List<RecommendedApp> apps;
   final bool isError;
+  final Duration? responseTime;
 
   factory ConversationMessage.user(String text) {
     return ConversationMessage(
@@ -65,6 +67,7 @@ class ConversationMessage {
     String text, {
     List<RecommendedApp> apps = const <RecommendedApp>[],
     bool isError = false,
+    Duration? responseTime,
   }) {
     return ConversationMessage(
       id: _messageId(),
@@ -73,6 +76,7 @@ class ConversationMessage {
       createdAt: DateTime.now(),
       apps: apps,
       isError: isError,
+      responseTime: responseTime,
     );
   }
 

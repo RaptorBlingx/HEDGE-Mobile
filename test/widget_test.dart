@@ -8,6 +8,6 @@ void main() {
     final theme = buildAppTheme();
 
     expect(theme.useMaterial3, isTrue);
-    expect(theme.colorScheme.primary.toARGB32(), equals(const Color(0xFF0F766E).toARGB32()));
+    expect(theme.colorScheme.primary.toARGB32(), equals(const Color(0xFF10A37F).toARGB32()));
   });
 }

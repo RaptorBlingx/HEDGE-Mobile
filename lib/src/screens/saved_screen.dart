@@ -23,16 +23,9 @@ class SavedScreen extends StatelessWidget {
         children: <Widget>[
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Text('Saved apps', style: Theme.of(context).textTheme.headlineMedium),
-                const SizedBox(height: 8),
-                Text(
-                  'Keep a shortlist of promising apps while you compare recommendations.',
-                  style: Theme.of(context).textTheme.bodyLarge,
-                ),
-              ],
+            child: Text(
+              'Keep a shortlist of promising apps while you compare recommendations.',
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
             ),
           ),
           Expanded(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../config/app_config.dart';
 import '../models/catalog_app.dart';
 import '../state/app_controller.dart';
 import '../widgets/app_summary_card.dart';
@@ -24,11 +25,9 @@ class BrowseScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text('Browse apps', style: Theme.of(context).textTheme.headlineMedium),
-                const SizedBox(height: 8),
                 Text(
-                  'Filter the catalog by domain, then open an app or hand it back to the AI assistant.',
-                  style: Theme.of(context).textTheme.bodyLarge,
+                  'Search the catalog by title, publisher, tag, or app ID, then narrow it by domain.',
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
                 ),
                 const SizedBox(height: 16),
                 TextField(
@@ -48,14 +47,31 @@ class BrowseScreen extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               itemBuilder: (BuildContext context, int index) {
                 final category = controller.categories[index];
-                return ChoiceChip(
-                  label: Text(category),
+                return _CategoryFilterChip(
+                  label: category,
                   selected: controller.selectedCategory == category,
-                  onSelected: (_) => controller.setSelectedCategory(category),
+                  onTap: () => controller.setSelectedCategory(category),
                 );
               },
               separatorBuilder: (_, __) => const SizedBox(width: 8),
               itemCount: controller.categories.length,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 10, 16, 12),
+            child: Row(
+              children: <Widget>[
+                Text(
+                  '${controller.filteredCatalog.length} apps',
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(fontWeight: FontWeight.w700),
+                ),
+                const SizedBox(width: 8),
+                if (controller.selectedCategory != AppConfig.allCategoryLabel)
+                  Text(
+                    'in ${controller.selectedCategory}',
+                    style: Theme.of(context).textTheme.bodyMedium,
+                  ),
+              ],
             ),
           ),
           const SizedBox(height: 12),
@@ -93,6 +109,55 @@ class BrowseScreen extends StatelessWidget {
             ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _CategoryFilterChip extends StatelessWidget {
+  const _CategoryFilterChip({
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      color: selected ? const Color(0xFF111827) : Colors.white,
+      borderRadius: BorderRadius.circular(999),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(999),
+        onTap: onTap,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(999),
+            border: Border.all(
+              color: selected ? const Color(0xFF111827) : const Color(0xFFD1D5DB),
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              if (selected) ...<Widget>[
+                const Icon(Icons.check_rounded, size: 16, color: Colors.white),
+                const SizedBox(width: 8),
+              ],
+              Text(
+                label,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: selected ? Colors.white : const Color(0xFF374151),
+                      fontWeight: FontWeight.w700,
+                    ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

@@ -42,11 +42,9 @@ class _SettingsScreenState extends State<SettingsScreen> {
       child: ListView(
         padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
         children: <Widget>[
-          Text('Settings', style: Theme.of(context).textTheme.headlineMedium),
-          const SizedBox(height: 8),
           Text(
             'Point the app at a HEDGE gateway and reset the demo state when needed.',
-            style: Theme.of(context).textTheme.bodyLarge,
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w500),
           ),
           const SizedBox(height: 24),
           TextField(
