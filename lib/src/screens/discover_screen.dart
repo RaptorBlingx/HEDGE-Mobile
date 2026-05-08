@@ -112,7 +112,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                   ),
                   const SizedBox(height: 12),
                   SizedBox(
-                    height: 104,
+                    height: 136,
                     child: ListView.separated(
                       scrollDirection: Axis.horizontal,
                       itemCount: AppConfig.suggestedPrompts.length,
@@ -219,8 +219,8 @@ class _PromptSuggestionCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(24),
       onTap: onTap,
       child: Ink(
-        width: 240,
-        padding: const EdgeInsets.all(16),
+          width: 228,
+          padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(24),
@@ -238,10 +238,10 @@ class _PromptSuggestionCard extends StatelessWidget {
               ),
               child: const Icon(Icons.auto_awesome_rounded, color: Color(0xFF10A37F)),
             ),
-            const Spacer(),
+              const SizedBox(height: 18),
             Text(
               prompt,
-              maxLines: 3,
+                maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: Theme.of(context).textTheme.titleMedium,
             ),
